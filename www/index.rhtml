@@ -1,6 +1,11 @@
 <%
 	$site.request_init
 	
+	if _meta["REQUEST_METHOD"] == "GET" and !_meta["QUERY_STRING"].match(/&l=[A-z_]+/)
+		newurl = "/?#{_meta["QUERY_STRING"]}&l=#{_session[:locale]}"
+		_kas.redirect(newurl)
+	end
+	
 	if _get["show"]
 		showpage = "../pages/#{_get["show"]}.rhtml"
 	else
@@ -15,6 +20,9 @@
 <head>
 	<title>Multinasser</title>
 	
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="lang" content="<%=_session[:locale]%>" /> 
+	
 	<link rel="stylesheet" type="text/css" href="/css/default.css" />
 	
 	<script type="text/javascript" src="/js/default.js"></script>
@@ -26,12 +34,12 @@
 	
 	<table style="width: 1000px; height: 100%; border-left: 1px solid black; border-right: 1px solid black;" cellspacing="0" cellpadding="0">
 		<tr>
-			<td style="width: 100%; font-size: 24px; padding: 10px;">
-				Multinasser
+			<td class="main_logo">
+				Multinasser database
 			</td>
 		</tr>
 		<tr>
-			<td style="border-top: 1px solid black; border-bottom: 1px solid black; padding: 4px;">
+			<td class="main_menu">
 				<%
 					menu = []
 					
@@ -43,7 +51,7 @@
 					end
 					
 					menu.each do |mitem|
-						print "<a href=\"#{mitem[:link]}\">#{mitem[:title]}</a> "
+						print "<a class=\"menu_item\" href=\"#{mitem[:link]}\">#{mitem[:title]}</a> "
 					end
 				%>
 			</td>
@@ -54,7 +62,15 @@
 			</td>
 		</tr>
 		<tr>
-			<td style="padding: 4px; border-top: 1px solid black; text-align: center;">
+			<td class="main_language">
+				Language:
+				<select onchange="location.href='<%="/?#{_meta["QUERY_STRING"]}".gsub(/&l=[A-z_]+/, "")%>&l=' + this.value;">
+				<%=Knj::Web.opts($site.lang_opts, _session[:locale].to_s)%>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td class="main_bottom">
 				<%=sprintf(_("Made by %s"), "<a href=\"mailto:k@spernj.org\">Kasper Johansen</a>")%>
 			</td>
 		</tr>

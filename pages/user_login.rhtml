@@ -34,11 +34,13 @@
 					<%
 						print Knj::Web.inputs([{
 							:title => _("Username"),
-							:name => :texuser
+							:name => :texuser,
+							:descr => _("The username you want to log in with.")
 						},{
 							:title => _("Password"),
 							:name => :texpass_clean,
-							:type => :password
+							:type => :password,
+							:descr => _("The password assigned to that username.")
 						}])
 					%>
 					<tr>

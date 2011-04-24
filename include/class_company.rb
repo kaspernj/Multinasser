@@ -21,4 +21,12 @@ class Multinasser::Company < Knj::Datarow
 	def html
 		return "<a href=\"/?show=company_edit&amp;company_id=#{id}\">#{name.html}</a>"
 	end
+	
+	def name
+		return _kas.trans(self, :name)
+	end
+	
+	def descr
+		return _kas.trans(self, :descr)
+	end
 end

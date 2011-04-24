@@ -1,10 +1,22 @@
 class Multinasser
+	attr_reader :lang_opts
+	
+	def initialize
+		@lang_opts = _kas.gettext.lang_opts
+	end
+	
 	def header(title)
 		return "<h1>#{title}</h1>"
 	end
 	
 	def request_init
-		_session[:locale] = "da_DK" if !_session[:locale]
+		Knj::Php.header("Content-Type: text/html; charset=utf8")
+		
+		if _get["l"]
+			_session[:locale] = _get["l"]
+		elsif !_session[:locale]
+			_session[:locale] = "da_DK"
+		end
 	end
 	
 	def user
@@ -18,17 +30,30 @@ class Multinasser
 	end
 	
 	def boxt(title, width = "100%")
-		html = "<table style=\"width: #{width}; border: 1px solid black;\" cellspacing=\"0\" cellpadding=\"0\">"
-		html += "<tr>"
-		html += "<td style=\"font-weight: bold; padding: 3px;\">"
-		html += title.to_s
-		html += "</td>"
+		html = "<table class=\"box\" style=\"width: #{width};\" cellspacing=\"0\" cellpadding=\"0\">"
+		html += "<tbody><tr>"
+		html += "<td class=\"top_left\"></td>"
+		html += "<td class=\"top_middle\"></td>"
+		html += "<td class=\"top_right\"></td>"
 		html += "</tr><tr>"
-		html += "<td style=\"padding: 3px;\">"
+		html += "<td class=\"left_middle\"></td>"
+		html += "<td class=\"center\"\">"
+		
+		if title.to_s.length > 0
+			html += "<div class=\"header\">#{title.to_s}</div>"
+		end
 	end
 	
 	def boxb
-		return "</td></tr></table>"
+		html = "</td>"
+		html += "<td class=\"right_middle\"></td>"
+		html += "</tr><tr>"
+		html += "<td class=\"left_bottom\"></td>"
+		html += "<td class=\"bottom_middle\"></td>"
+		html += "<td class=\"right_bottom\"></td>"
+		html += "</tr></tbody></table>"
+		
+		return html
 	end
 	
 	def log(msg, objs)

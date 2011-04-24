@@ -5,22 +5,33 @@ html, body{
 
 html, body, input, textarea, select, td{
 	font-family: verdana, tahoma, arial;
-	font-size: 10px;
+	font-size: 12px;
 	color: black;
 }
 
 input, textarea, select{
-	border: 1px solid black;
-	background-color: white;
-	color: black;
+	border: 1px solid #bbbbbb;
+	background-color: #ffffff;
+	color: #000000;
+	padding: 4px;
 }
 
 table.form, table.list{
 	width: 100%;
 }
 
+a:link, a:visited{
+	color: #698295;
+	text-decoration: underline;
+}
+
+a:active, a:hover{
+	color: #272727;
+	text-decoration: underline;
+}
+
 th{
-	font-size: 10px;
+	font-size: 12px;
 	text-align: left;
 }
 
@@ -34,10 +45,10 @@ td.tdc{
 }
 
 td.tdd{
-	font-size: 9px;
+	font-size: 10px;
 	color: grey;
 	padding-top: 0px;
-	padding-bottom: 3px;
+	padding-bottom: 12px;
 }
 
 td.buttons{
@@ -49,6 +60,108 @@ td.error{
 	font-style: italic;
 }
 
-.input_text, .input_password, .input_textarea{
+.input_text, .input_password, .input_textarea, .input_file{
 	width: 100%;
+}
+
+input[type=button], input[type=submit]{
+	border: 1px solid #989898;
+	background: url("/gfx/button_bg.png") 0 0 repeat-x;
+	height: 20px;
+	font-size: 12px;
+	padding: 0px 9px 0px 9px;
+	margin: 0px 0px 0px 0px;
+}
+
+.main_logo{
+	background: url("/gfx/logo.png") 0 0 no-repeat;
+	height: 82px;
+	padding: 0px 0px 0px 340px;
+	font-size: 24px;
+	font-weight: bold;
+}
+
+.main_menu{
+	background: url("/gfx/menu_bg.png");
+	padding: 4px;
+	height: 30px;
+}
+
+.main_menu > a.menu_item:link, .main_menu > a.menu_item:visited{
+	color: white;
+	text-decoration: none;
+	padding-right: 10px;
+}
+
+.main_language{
+	text-align: center;
+}
+
+.main_bottom{
+	background: url("/gfx/menu_bg.png");
+	padding: 4px;
+	height: 30px;
+	text-align: center;
+	color: #ffffff;
+}
+
+.main_bottom > a:link, .main_bottom > a:visited{
+	color: white;
+	text-decoration: none;
+	padding-right: 10px;
+}
+
+table.box > tbody > tr > td.center > div.header{
+	font-weight: bold;
+	font-size: 14px;
+	padding-left: 3px;
+	padding-bottom: 5px;
+}
+
+table.box > tbody > tr > td.top_left{
+	background: url("/gfx/box/box_top_left.png") 0 0 no-repeat;
+	width: 7px;
+	height: 7px;
+}
+
+table.box > tbody > tr > td.top_middle{
+	background: url("/gfx/box/box_top_middle.png") 0 0 repeat-x;
+	height: 7px;
+}
+
+table.box > tbody > tr > td.top_right{
+	background: url("/gfx/box/box_top_right.png") 0 0 no-repeat;
+	width: 7px;
+	height: 7px;
+}
+
+table.box > tbody > tr > td.left_middle{
+	background: url("/gfx/box/box_left_middle.png") 0 0 repeat-y;
+	width: 7px;
+}
+
+table.box > tbody > tr > td.center{
+	background: url("/gfx/box/box_center.png") 0 0 repeat;
+}
+
+table.box > tbody > tr > td.right_middle{
+	background: url("/gfx/box/box_right_middle.png") 0 0 repeat-y;
+	width: 7px;
+}
+
+table.box > tbody > tr > td.left_bottom{
+	background: url("/gfx/box/box_left_bottom.png") 0 0 no-repeat;
+	width: 7px;
+	height: 7px;
+}
+
+table.box > tbody > tr > td.bottom_middle{
+	background: url("/gfx/box/box_bottom_middle.png") 0 0 repeat-x;
+	height: 7px;
+}
+
+table.box > tbody > tr > td.right_bottom{
+	background: url("/gfx/box/box_right_bottom.png") 0 0 no-repeat;
+	width: 7px;
+	height: 7px;
 }

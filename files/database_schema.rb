@@ -3,8 +3,8 @@ $tables = {
 		"Company" => {
 			"columns" => [
 				{"name" => "id", "type" => "int", "autoincr" => true, "primarykey" => true},
-				{"name" => "name", "type" => "varchar"},
-				{"name" => "descr", "type" => "text"}
+				{"name" => "user_id", "type" => "int"},
+				{"name" => "date_updated", "type" => "datetime"}
 			]
 		},
 		"File" => {
@@ -62,9 +62,7 @@ $tables = {
 				{"name" => "object_id", "type" => "int"},
 				{"name" => "user_id", "type" => "int"},
 				{"name" => "points", "type" => "decimal", "maxlength" => "10,2"},
-				{"name" => "date_saved", "type" => "datetime"},
-				{"name" => "title", "type" => "varchar"},
-				{"name" => "descr", "type" => "text"}
+				{"name" => "date_saved", "type" => "datetime"}
 			],
 			"indexes" => [
 				{"name" => "object_lookup", "columns" => ["object_class", "object_id"]},

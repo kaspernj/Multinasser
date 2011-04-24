@@ -19,7 +19,7 @@ class Multinasser::File < Knj::Datarow
 	end
 	
 	def html
-		return "<a href=\"/?show=files_edit&amp;file_id=#{id}\">#{self[:filename].html}</a> (<a href=\"/download.rhtml?object_class=File&amp;object_id=#{id}\">#{_("Download")}</a>)"
+		return "<a href=\"/?show=file_edit&amp;file_id=#{id}\">#{self[:filename].html}</a> (<a href=\"/download.rhtml?object_class=File&amp;object_id=#{id}\">#{_("Download")}</a>)"
 	end
 	
 	def object
