@@ -1,0 +1,54 @@
+html, body{
+	margin: 0px;
+	padding: 0px;
+}
+
+html, body, input, textarea, select, td{
+	font-family: verdana, tahoma, arial;
+	font-size: 10px;
+	color: black;
+}
+
+input, textarea, select{
+	border: 1px solid black;
+	background-color: white;
+	color: black;
+}
+
+table.form, table.list{
+	width: 100%;
+}
+
+th{
+	font-size: 10px;
+	text-align: left;
+}
+
+td.tdt{
+	font-weight: bold;
+	white-space: nowrap;
+}
+
+td.tdc{
+	width: 100%;
+}
+
+td.tdd{
+	font-size: 9px;
+	color: grey;
+	padding-top: 0px;
+	padding-bottom: 3px;
+}
+
+td.buttons{
+	text-align: right;
+}
+
+td.error{
+	text-align: center;
+	font-style: italic;
+}
+
+.input_text, .input_password, .input_textarea{
+	width: 100%;
+}

@@ -1,0 +1,7 @@
+<%
+	user = $ob.get(:User, _get["user_id"])
+	
+	print $site.header(sprintf(_("View user: %s"), user[:username].html))
+%>
+
+<%=_("There is no content on this page yet.")%>

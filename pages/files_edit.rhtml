@@ -1,0 +1,99 @@
+<%
+	if _get["choice"] == "dosave"
+		save_hash = {
+			
+		}
+	end
+	
+	if _get["file_id"]
+		file = $ob.get(:File, _get["file_id"])
+		file_descr = file.descr
+		title = sprintf(_("Edit file: %s"), file.name.html)
+		actionpath = "&amp;file_id=#{file.id}"
+		
+		if _get["choice"] == "dodelete"
+			path = file.object.site_path
+			$ob.delete(file)
+			_kas.redirect(path)
+		end
+	else
+		title = _("Add new file")
+		actionpath = "&amp;object_class=#{_get["object_class"]}&amp;object_id=#{_get["object_id"]}"
+		
+		if _get["choice"] == "dosave"
+			save_hash[:object_class] = _get["object_class"]
+			save_hash[:object_id] = _get["object_id"]
+			file = $ob.add(:File, save_hash)
+		end
+	end
+	
+	if _get["choice"] == "dosave"
+		if _post["fileupload"].to_s.length > 0
+			file.content = _post["fileupload"].to_s
+			file.update(
+				:filename => _post["fileupload"].filename,
+				:filesize => _post["fileupload"].to_s.length
+			)
+		end
+		
+		_kas.trans_set(file, {
+			:descr => _post["texdescr"]
+		})
+		_kas.redirect("/?show=files_edit&file_id=#{file.id}")
+	end
+	
+	print $site.header(title)
+%>
+
+<form method="post" enctype="multipart/form-data" action="/?show=files_edit&amp;choice=dosave<%=actionpath%>">
+
+<%=$site.boxt(_("Enter details"), "800px")%>
+	<table class="form">
+		<%
+			print Knj::Web.inputs([{
+				:title => _("File"),
+				:name => :fileupload,
+				:descr => _("You can choose the file this object should represent here and then uploading it by pressing 'Save'.")
+			}])
+			
+			if file and file.object
+				print Knj::Web.input(
+					:title => _("Attached to"),
+					:type => :info,
+					:value => file.object.html
+				)
+			end
+			
+			if file and file.content?
+				print Knj::Web.input(
+					:title => _("File object"),
+					:type => :info,
+					:value => file.html
+				)
+			end
+			
+			print Knj::Web.inputs([{
+				:title => _("Description"),
+				:name => :texdescr,
+				:value => file_descr,
+				:type => :fckeditor,
+				:height => 500,
+				:descr => _("This description should describe what this files is and what it contains.")
+			}])
+		%>
+		<tr>
+			<td colspan="2" class="buttons">
+				<%if file%>
+					<input type="button" value="<%=_("Delete")%>" onclick="if (confirm('<%=_("Do you want to delete this file?")%>')){location.href='/?show=files_edit&amp;file_id=<%=file.id%>&amp;choice=dodelete';}" />
+				<%end%>
+				<input type="submit" value="<%=_("Save")%>" />
+			</td>
+		</tr>
+	</table>
+<%=$site.boxb%>
+
+</form>
+
+<script type="text/javascript">
+	$("#texdescr").focus();
+</script>

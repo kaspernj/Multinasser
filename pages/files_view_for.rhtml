@@ -1,0 +1,44 @@
+<%
+	$site.require_admin
+	
+	obj = $ob.get(_get["object_class"], _get["object_id"])
+	title = sprintf(_("Files for %s"), obj.name.html)
+	files = $ob.list(:File, {"object" => obj})
+	
+	print $site.header(title)
+%>
+
+<%=$site.boxt(_("List of files"), "350px")%>
+	<div style="padding-bottom: 20px;">
+		<input type="button" value="<%=_("Add")%>" onclick="location.href='/?show=files_edit&amp;object_class=<%=obj.table%>&amp;object_id=<%=obj.id%>';" />
+	</div>
+	
+	<table class="list">
+		<thead>
+			<tr>
+				<th><%=_("File")%></th>
+			</tr>
+		</thead>
+		<tbody>
+			<%
+				files.each do |file|
+					%>
+						<tr>
+							<td><%=file.html%></td>
+						</tr>
+					<%
+				end
+				
+				if files.empty?
+					%>
+						<tr>
+							<td colspan="1" class="error">
+								<%=_("No files were found.")%>
+							</td>
+						</tr>
+					<%
+				end
+			%>
+		</tbody>
+	</table>
+<%=$site.boxb%>

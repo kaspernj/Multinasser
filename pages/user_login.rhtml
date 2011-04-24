@@ -1,0 +1,65 @@
+<%
+	print $site.header(_("Log in"))
+	
+	if _get["choice"] == "dologin"
+		user = $ob.get_by(:User, {
+			"username" => _post["texuser"],
+			"password" => _post["texpass"]
+		})
+		
+		if !user
+			_kas.alert(_("Could not find a user with such a username and/or password."))
+			_kas.back
+		else
+			_session[:user_id] = user.id
+		end
+		
+		_kas.redirect("/?show=user_login")
+	end
+	
+	if _get["choice"] == "dologout"
+		_session.delete(:user_id)
+		_kas.redirect("/?show=user_login")
+	end
+	
+	if $site.user
+		print sprintf(_("You are logged in as %s."), $site.user.html)
+	else
+		%>
+			<form id="form_login" method="post" action="/?show=user_login&amp;choice=dologin">
+			<input type="hidden" name="texpass" value="" />
+			
+			<%=$site.boxt(_("Enter details"), "350px")%>
+				<table class="form">
+					<%
+						print Knj::Web.inputs([{
+							:title => _("Username"),
+							:name => :texuser
+						},{
+							:title => _("Password"),
+							:name => :texpass_clean,
+							:type => :password
+						}])
+					%>
+					<tr>
+						<td colspan="2" class="buttons">
+							<input type="submit" value="<%=_("Log in")%>" />
+						</td>
+					</tr>
+				</table>
+			<%=$site.boxb%>
+			
+			</form>
+			
+			<script type="text/javascript">
+				$("#form_login").submit(function(){
+					md5hash = $.md5($("#texpass_clean").val());
+					$("input[name=texpass]").val(md5hash);
+					$("#texpass_clean").val("");
+					
+					return true;
+				});
+			</script>
+		<%
+	end
+%>

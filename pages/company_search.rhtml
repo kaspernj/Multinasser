@@ -1,0 +1,80 @@
+<%
+	$site.require_admin
+	
+	print $site.header(_("Search for companies"))
+%>
+
+<form method="get">
+<input type="hidden" name="show" value="company_search" />
+<input type="hidden" name="choice" value="dosearch" />
+
+<%=$site.boxt(_("Enter criteria"), "350px")%>
+	<table class="form">
+		<%
+			print Knj::Web.inputs([{
+				:title => _("Name"),
+				:name => :texname,
+				:value => _get["texname"],
+				:descr => _("A part of the companys name you are searching for.")
+			}])
+		%>
+		<tr>
+			<td colspan="2" class="buttons">
+				<input type="submit" value="<%=_("Search")%>" />
+			</td>
+		</tr>
+	</table>
+<%=$site.boxb%>
+
+<script type="text/javascript">
+	$("#texname").focus();
+</script>
+
+<%
+	if _get["choice"] == "dosearch"
+		args = {}
+		
+		if _get["texname"].to_s.length > 0
+			args["name_search"] = _get["texname"]
+		end
+		
+		companies = $ob.list(:Company, args)
+		
+		%>
+			<br />
+			
+			<%=$site.boxt(_("Results"), "350px")%>
+				<table class="list">
+					<thead>
+						<tr>
+							<th><%=_("Company")%></th>
+						</tr>
+					</thead>
+					<tbody>
+						<%
+							companies.each do |company|
+								%>
+									<tr>
+										<td>
+											<%=company.html%>
+										</td>
+									</tr>
+								<%
+							end
+							
+							if companies.empty?
+								%>
+									<tr>
+										<td colspan="1" class="error">
+											<%=_("No companies were found.")%>
+										</td>
+									</tr>
+								<%
+							end
+						%>
+					</tbody>
+				</table>
+			<%=$site.boxb%>
+		<%
+	end
+%>

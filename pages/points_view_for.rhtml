@@ -1,0 +1,53 @@
+<%
+	$site.require_admin
+	
+	obj = $ob.get(_get["object_class"], _get["object_id"])
+	points = $ob.list(:Points, {"object" => obj})
+	
+	print $site.header(sprintf(_("View points for: %s"), obj.name.html))
+%>
+
+<%=$site.boxt(_("List of points"), "350px")%>
+	<div style="padding-bottom: 20px;">
+		<input type="button" value="<%=_("Add")%>" onclick="location.href='/?show=points_edit&amp;object_class=<%=obj.table%>&amp;object_id=<%=obj.id%>';" />
+	</div>
+	
+	<table class="list">
+		<thead>
+			<tr>
+				<th><%=_("Object")%></th>
+				<th><%=_("Points")%></th>
+				<th><%=_("Author")%></th>
+			</tr>
+		</thead>
+		<tbody>
+			<%
+				points.each do |val|
+					%>
+						<tr>
+							<td>
+								<%=val.html%>
+							</td>
+							<td>
+								<%=Knj::Locales.number_out(val[:points], 0)%>
+							</td>
+							<td>
+								<%=val.user.html%>
+							</td>
+						</tr>
+					<%
+				end
+				
+				if points.empty?
+					%>
+						<tr>
+							<td colspan="3" class="error">
+								<%=_("No points were found for this object.")%>
+							</td>
+						</tr>
+					<%
+				end
+			%>
+		</tbody>
+	</table>
+<%=$site.boxb%>

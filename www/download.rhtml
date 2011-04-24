@@ -1,0 +1,8 @@
+<%
+	$site.request_init
+	
+	obj = $ob.get(_get["object_class"], _get["object_id"])
+	
+	Knj::Php.header("Content-Disposition: attachment; filename=\"#{obj.dl_filename}\"");
+	print obj.dl_content
+%>

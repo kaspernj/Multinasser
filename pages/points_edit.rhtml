@@ -1,0 +1,92 @@
+<%
+	$site.require_admin
+	
+	if _get["choice"] == "dosave"
+		save_hash = {
+			:points => Knj::Locales.number_in(_post["texpoints"]),
+			:user_id => $site.user.id
+		}
+	end
+	
+	if _get["points_id"]
+		points = $ob.get(:Points, _get["points_id"])
+		points_title = points.title
+		points_descr = points.descr
+		
+		object_html = points.object.html
+		title = sprintf(_("Edit points: %s"), points_title)
+		actionpath = "&amp;points_id=#{points.id}"
+		
+		if _get["choice"] == "dodelete"
+			obj = points.object
+			$ob.delete(points)
+			_kas.redirect(obj.site_path)
+		end
+		
+		if _get["choice"] == "dosave"
+			points.update(save_hash)
+		end
+	else
+		points_title = _("Add new points")
+		actionpath = "&amp;object_class=#{_get["object_class"]}&amp;object_id=#{_get["object_id"]}"
+		
+		if _get["choice"] == "dosave"
+			save_hash[:object_class] = _get["object_class"]
+			save_hash[:object_id] = _get["object_id"]
+			
+			points = $ob.add(:Points, save_hash)
+		end
+	end
+	
+	if _get["choice"] == "dosave"
+		_kas.trans_set(points, {
+			:title => _post["textitle"],
+			:descr => _post["texdescr"]
+		})
+		_kas.redirect("/?show=points_edit&points_id=#{points.id}")
+	end
+	
+	print $site.header(title)
+%>
+
+<form method="post" action="/?show=points_edit&amp;choice=dosave<%=actionpath%>">
+
+<%=$site.boxt(_("Enter details"), "800px")%>
+	<table class="form">
+		<%
+			print Knj::Web.inputs([{
+				:title => _("Points"),
+				:name => :texpoints,
+				:value => [points, :points],
+				:value_func => [Knj::Locales, :number_out, 2]
+			},{
+				:title => _("Title"),
+				:name => :textitle,
+				:value => points_title
+			},{
+				:title => _("Object"),
+				:type => :info,
+				:value => object_html
+			},{
+				:title => _("Description"),
+				:name => :texdescr,
+				:value => points_descr,
+				:type => :fckeditor
+			}])
+		%>
+		<tr>
+			<td colspan="2" class="buttons">
+				<%if points%>
+					<input type="button" value="<%=_("Delete")%>" onclick="if (confirm('<%=_("Do you want to delete these points?")%>')){location.href='/?show=points_edit&amp;points_id=<%=points.id%>&amp;choice=dodelete';}" />
+				<%end%>
+				<input type="submit" value="<%=_("Save")%>" />
+			</td>
+		</tr>
+	</table>
+<%=$site.boxb%>
+
+</form>
+
+<script type="text/javascript">
+	$("#texpoints").focus();
+</script>

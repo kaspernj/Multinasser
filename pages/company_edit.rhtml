@@ -1,0 +1,72 @@
+<%
+	$site.require_admin
+	
+	if _get["choice"] == "dosave"
+		save_hash = {
+			:name => _post["texname"],
+			:descr => _post["texdescr"]
+		}
+	end
+	
+	if _get["company_id"]
+		company = $ob.get(:Company, _get["company_id"])
+		title = sprintf(_("Edit company: %s"), company.name.html)
+		
+		if _get["choice"] == "dosave"
+			company.update(save_hash)
+			$site.log(_("Company has been updated."), company)
+			_kas.redirect("/?show=company_edit&company_id=#{company.id}")
+		end
+		
+		if _get["choice"] == "dodelete"
+			$ob.delete(company)
+			_kas.redirect("/?show=company_edit")
+		end
+	else
+		title = _("Add new company")
+		
+		if _get["choice"] == "dosave"
+			company = $ob.add(:Company, save_hash)
+			_kas.redirect("/?show=company_edit&company_id=#{company.id}")
+		end
+	end
+	
+	print $site.header(title)
+%>
+
+<form method="post" action="/?show=company_edit&amp;choice=dosave<%if company; print "&amp;company_id=#{company.id}"; end%>">
+
+<%=$site.boxt(_("Enter details"), "800px")%>
+	<table class="form">
+		<%
+			print Knj::Web.inputs([{
+				:title => _("Name"),
+				:name => :texname,
+				:value => [company, :name]
+			},{
+				:title => _("Description"),
+				:name => :texdescr,
+				:value => [company, :descr],
+				:type => :fckeditor,
+				:height => 500
+			}])
+		%>
+		<tr>
+			<td colspan="2" class="buttons">
+				<%if company%>
+					<input type="button" value="<%=_("Files")%>" onclick="location.href='/?show=files_view_for&amp;object_class=Company&amp;object_id=<%=company.id%>';" />
+					<input type="button" value="<%=_("Points")%>" onclick="location.href='/?show=points_view_for&amp;object_class=Company&amp;object_id=<%=company.id%>';" />
+					<input type="button" value="<%=_("Delete")%>" onclick="if (confirm('<%=_("Do you want to delete this company?")%>')){location.href='/?show=company_edit&amp;company_id=<%=company.id%>&amp;choice=dodelete';}" />
+				<%end%>
+				
+				<input type="submit" value="<%=_("Save")%>" />
+			</td>
+		</tr>
+	</table>
+<%=$site.boxb%>
+
+</form>
+
+<script type="text/javascript">
+	$("#texname").focus();
+</script>
