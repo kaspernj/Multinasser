@@ -1,0 +1,85 @@
+<%
+	print $site.header(_("Search for pages"))
+%>
+
+<form method="get">
+<%
+	print Knj::Web.hiddens([
+		{:name => :show, :value => :page_search},
+		{:name => :choice, :value => :dosearch}
+	])
+%>
+
+<%=$site.boxt(_("Enter details"), "350px")%>
+	<table class="form">
+		<%
+			print Knj::Web.inputs([{
+				:title => _("Name"),
+				:name => :texname,
+				:value => _get["texname"],
+				:descr => _("The name of the page you are searching for.")
+			}])
+		%>
+		<tr>
+			<td colspan="2" class="buttons">
+				<input type="button" value="<%=_("Add new")%>" onclick="location.href='/?show=page_edit';" />
+				<input type="submit" value="<%=_("Search")%>" />
+			</td>
+		</tr>
+	</table>
+<%=$site.boxb%>
+
+</form>
+
+<script type="text/javascript">
+	$("#texname").focus();
+</script>
+
+<%
+	if _get["choice"] == "dosearch"
+		args = {}
+		
+		if _get["texname"].to_s.length > 0
+			args["name_search"] = _get["texname"]
+		end
+		
+		pages = $ob.list(:Page, args)
+		
+		%>
+			<br />
+			
+			<%=$site.boxt(_("Results"), "500px")%>
+				<table class="list">
+					<thead>
+						<tr>
+							<th><%=_("Page")%></th>
+						</tr>
+					</thead>
+					<tbody>
+						<%
+							pages.each do |page|
+								%>
+									<tr>
+										<td>
+											<%=page.html%>
+										</td>
+									</tr>
+								<%
+							end
+							
+							if pages.empty?
+								%>
+									<tr>
+										<td colspan="1" class="error">
+											<%=_("No pages were found.")%>
+										</td>
+									</tr>
+								<%
+							end
+						%>
+					</tbody>
+				</table>
+			<%=$site.boxb%>
+		<%
+	end
+%>

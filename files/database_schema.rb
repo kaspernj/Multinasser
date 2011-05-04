@@ -58,6 +58,18 @@ $tables = {
 				{"name" => "object_lookup", "columns" => ["object_class", "object_id"]}
 			]
 		},
+		"Page" => {
+			"columns" => [
+				{"name" => "id", "type" => "int", "autoincr" => true, "primarykey" => true},
+				{"name" => "id_str", "type" => "varchar", "maxlength" => 255},
+				{"name" => "date_added", "type" => "datetime"},
+				{"name" => "added_user_id", "type" => "int"}
+			],
+			"indexes" => [
+				{"name" => "id_str", "columns" => ["id_str"]},
+				{"name" => "added_user_id", "columns" => ["added_user_id"]}
+			]
+		},
 		"Points" => {
 			"columns" => [
 				{"name" => "id", "type" => "int", "autoincr" => true, "primarykey" => true},

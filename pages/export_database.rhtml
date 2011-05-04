@@ -12,6 +12,8 @@
 	print $site.header(_("Export database"))
 	
 	if _get["choice"] == "dogeneratesqlite3"
+		kasobj = _kas
+		
 		_session_hash[:thread_edb] = Knj::Thread.new do
 			begin
 				cthread = Thread.current
@@ -28,10 +30,30 @@
 					:index_append_table_name => true,
 					:return_keys => "symbols"
 				)
-				db.copy_to(db2)
+				db.copy_to(db2, {
+					"tables" => {
+						"User" => {
+							"columns" => {
+								"password" => {
+									"empty" => true
+								}
+							}
+						}
+					}
+				})
+				kasobj.db.copy_to(db2, {
+					"tables" => {
+						"sessions" => {
+							"skip" => true
+						}
+					}
+				})
 				
 				cthread[:status] = _("Done.")
 			rescue Exception => e
+				puts e.inspect
+				puts e.backtrace
+				
 				cthread[:status] = e.message
 			end
 		end

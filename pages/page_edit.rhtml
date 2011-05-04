@@ -1,0 +1,79 @@
+<%
+	if _get["choice"] == "dosave"
+		save_hash = {
+			:id_str => _post["texidstr"]
+		}
+	end
+	
+	if _get["page_id"].to_i > 0
+		page = $ob.get(:Page, _get["page_id"])
+		page_name = page.name
+		page_content = page.content
+		title = sprintf(_("Edit page: %s"), page_name)
+		
+		if _get["choice"] == "dosave"
+			page.update(save_hash)
+		end
+		
+		if _get["choice"] == "dodelete"
+			$ob.delete(page)
+			_kas.redirect("/?show=page_search")
+		end
+	else
+		title = _("Add new page")
+		
+		if _get["choice"] == "dosave"
+			page = $ob.add(:Page, save_hash)
+		end
+	end
+	
+	if _get["choice"] == "dosave"
+		_kas.trans_set(page, {
+			:name => _post["texname"],
+			:content => _post["texcontent"]
+		})
+		_kas.redirect("/?show=page_edit&page_id=#{page.id}")
+	end
+	
+	print $site.header(title)
+%>
+
+<form method="post" action="/?show=page_edit&amp;choice=dosave<%if page; print "&amp;page_id=#{page.id}"; end%>">
+
+<%=$site.boxt(_("Enter details"), "600px")%>
+	<table class="form">
+		<%
+			print Knj::Web.inputs([{
+				:title => _("Name"),
+				:name => :texname,
+				:value => page_name,
+				:descr => _("The name of the page as it should appear on the website and in the mobile application.")
+			},{
+				:title => _("ID string"),
+				:name => :texidstr,
+				:value => [page, :id_str],
+				:descr => _("This text is used to look this page up in the system.")
+			},{
+				:title => _("Content"),
+				:name => :texcontent,
+				:value => page_content,
+				:descr => _("The content as it should appear on the website and on the mobile application."),
+				:type => :fckeditor
+			}])
+		%>
+		<tr>
+			<td colspan="2" class="buttons">
+				<%if page%>
+					<input type="button" value="<%=_("Delete")%>" onclick="if (confirm('<%=_("Do you want to delete this page?")%>')){location.href='/?show=page_edit&amp;page_id=<%=page.id%>&amp;choice=dodelete';}" />
+				<%end%>
+				<input type="submit" value="<%=_("Save")%>" />
+			</td>
+		</tr>
+	</table>
+<%=$site.boxb%>
+
+</form>
+
+<script type="text/javascript">
+	$("#texname").focus();
+</script>
