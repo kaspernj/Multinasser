@@ -25,14 +25,21 @@
 	
 	<link rel="stylesheet" type="text/css" href="/css/default.css" />
 	
-	<script type="text/javascript" src="/js/default.js"></script>
 	<script type="text/javascript" src="http://www.kaspernj.org/js/jquery.js"></script>
 	<script type="text/javascript" src="http://www.kaspernj.org/js/jquery.md5.js"></script>
+	<script type="text/javascript" src="http://www.kaspernj.org/js/modal.js"></script>
+	<script type="text/javascript" src="/js/default.js"></script>
 </head>
 <body>
+	<script type="text/javascript">
+		var locale_strings = {
+			"close": "<%=_("Close")%>"
+		}
+	</script>
+	
 	<center>
 	
-	<table style="width: 1000px; height: 100%; border-left: 1px solid black; border-right: 1px solid black;" cellspacing="0" cellpadding="0">
+	<table class="main_table" cellspacing="0" cellpadding="0">
 		<tr>
 			<td class="main_logo">
 				Multinasser database
@@ -47,17 +54,19 @@
 						menu << {:title => _("Log in"), :link => "/?show=user_login"}
 					else
 						menu << {:title => _("Companies"), :link => "/?show=company_search"}
+						menu << {:title => _("Products"), :link => "/?show=product_search"}
+						menu << {:title => _("Export DB"), :link => "/?show=export_database"}
 						menu << {:title => _("Log out"), :link => "/?show=user_login&choice=dologout"}
 					end
 					
 					menu.each do |mitem|
-						print "<a class=\"menu_item\" href=\"#{mitem[:link]}\">#{mitem[:title]}</a> "
+						print "<a class=\"menu_item\" href=\"#{mitem[:link]}&l=#{_session[:locale]}\">#{mitem[:title]}</a> "
 					end
 				%>
 			</td>
 		</tr>
 		<tr>
-			<td style="height: 100%; vertical-align: top; padding: 12px;">
+			<td class="main_content">
 				<%_kas.import(showpage)%>
 			</td>
 		</tr>

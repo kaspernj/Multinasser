@@ -15,6 +15,6 @@ class Multinasser::User < Knj::Datarow
 	end
 	
 	def html
-		return "<a href=\"/?show=user_view&amp;user_id=#{id}\">#{self[:username].html}</a>"
+		return "<a href=\"/?show=user_view&amp;user_id=#{id}&amp;l=#{_session[:locale]}\">#{self[:username].html}</a>"
 	end
 end

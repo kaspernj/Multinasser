@@ -24,11 +24,14 @@ $tables = {
 				{"name" => "object_from_class", "type" => "varchar"},
 				{"name" => "object_from_id", "type" => "int"},
 				{"name" => "object_to_class", "type" => "varchar"},
-				{"name" => "object_to_id", "type" => "int"}
+				{"name" => "object_to_id", "type" => "int"},
+				{"name" => "date_added", "type" => "datetime"},
+				{"name" => "added_user_id", "type" => "int"}
 			],
 			"indexes" => [
 				{"name" => "object_from_lookup", "columns" => ["object_from_class", "object_from_id"]},
-				{"name" => "object_to_lookup", "columns" => ["object_to_class", "object_to_id"]}
+				{"name" => "object_to_lookup", "columns" => ["object_to_class", "object_to_id"]},
+				{"name" => "added_user_id", "columns" => ["added_user_id"]}
 			]
 		},
 		"Log" => {
@@ -71,6 +74,12 @@ $tables = {
 			"columns_remove" => {
 				"company_id" => true
 			}
+		},
+		"Product" => {
+			"columns" => [
+				{"name" => "id", "type" => "int", "autoincr" => true, "primarykey" => true},
+				{"name" => "date_added", "type" => "datetime"}
+			]
 		},
 		"User" => {
 			"columns" => [

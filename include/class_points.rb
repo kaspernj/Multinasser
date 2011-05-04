@@ -24,6 +24,10 @@ class Multinasser::Points < Knj::Datarow
 		obj = d.ob.get(d.data[:object_class], d.data[:object_id]) #Ensure object exists!
 	end
 	
+	def delete
+		_kas.trans_del(self)
+	end
+	
 	def object
 		return ob.get_try(self, :object_id, self[:object_class])
 	end
@@ -41,6 +45,6 @@ class Multinasser::Points < Knj::Datarow
 	end
 	
 	def html
-		return "<a href=\"/?show=points_edit&amp;points_id=#{id}\">#{title.html}</a>"
+		return "<a href=\"/?show=points_edit&amp;points_id=#{id}&amp;l=#{_session[:locale]}\">#{title.html}</a>"
 	end
 end

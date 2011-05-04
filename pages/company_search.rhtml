@@ -1,36 +1,10 @@
 <%
 	$site.require_admin
 	
-	print $site.header(_("Search for companies"))
-%>
-
-<form method="get">
-<input type="hidden" name="show" value="company_search" />
-<input type="hidden" name="choice" value="dosearch" />
-
-<%=$site.boxt(_("Enter criteria"), "350px")%>
-	<table class="form">
-		<%
-			print Knj::Web.inputs([{
-				:title => _("Name"),
-				:name => :texname,
-				:value => _get["texname"],
-				:descr => _("A part of the companys name you are searching for.")
-			}])
-		%>
-		<tr>
-			<td colspan="2" class="buttons">
-				<input type="submit" value="<%=_("Search")%>" />
-			</td>
-		</tr>
-	</table>
-<%=$site.boxb%>
-
-<script type="text/javascript">
-	$("#texname").focus();
-</script>
-
-<%
+	if _get["choice"] != "doajaxsearch" and _get["choice"] != "dosearch"
+		print $site.header(_("Search for companies"))
+	end
+	
 	if _get["choice"] == "dosearch"
 		args = {}
 		
@@ -56,7 +30,11 @@
 								%>
 									<tr>
 										<td>
-											<%=company.html%>
+											<%if _get["choose_js_func"]%>
+												<a href="javascript: <%=_get["choose_js_func"]%>(<%=company.id%>);"><%=company.name.html%></a>
+											<%else%>
+												<%=company.html%>
+											<%end%>
 										</td>
 									</tr>
 								<%
@@ -76,5 +54,52 @@
 				</table>
 			<%=$site.boxb%>
 		<%
+		
+		exit
 	end
 %>
+
+<form method="get" onsubmit="return company_dosearch();">
+<input type="hidden" name="show" value="company_search" />
+<input type="hidden" name="choice" value="dosearch" />
+
+<%=$site.boxt(_("Enter criteria"), "350px")%>
+	<table class="form">
+		<%
+			print Knj::Web.inputs([{
+				:title => _("Name"),
+				:name => :texname,
+				:value => _get["texname"],
+				:descr => _("A part of the companys name you are searching for.")
+			}])
+		%>
+		<tr>
+			<td colspan="2" class="buttons">
+				<input type="submit" value="<%=_("Search")%>" />
+			</td>
+		</tr>
+	</table>
+<%=$site.boxb%>
+
+<input type="hidden" name="l" value="<%=_session[:locale]%>" />
+</form>
+
+<script type="text/javascript">
+	$("#texname").focus();
+	
+	function company_dosearch(){
+		args = {"texname": $("#texname").val()}
+		
+		$.ajax({type: "POST", data: args, url: "/clean.rhtml?show=company_search&choice=dosearch&choose_js_func=<%=_get["choose_js_func"]%>", complete: function(data){
+			div_res = $("#divcompanyresults");
+			div_res.slideUp("fast", function(){
+				div_res.html(data.responseText);
+				div_res.slideDown("fast");
+			});
+		}});
+		
+		return false;
+	}
+</script>
+
+<div id="divcompanyresults"></div>

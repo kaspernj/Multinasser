@@ -3,6 +3,10 @@ html, body{
 	padding: 0px;
 }
 
+body{
+	background: url("/gfx/body_bg.jpg") 0 0 repeat;
+}
+
 html, body, input, textarea, select, td{
 	font-family: verdana, tahoma, arial;
 	font-size: 12px;
@@ -73,6 +77,14 @@ input[type=button], input[type=submit]{
 	margin: 0px 0px 0px 0px;
 }
 
+.main_table{
+	width: 1000px;
+	height: 100%;
+	border-left: 1px solid #989898;
+	border-right: 1px solid #989898;
+	background-color: #ffffff;
+}
+
 .main_logo{
 	background: url("/gfx/logo.png") 0 0 no-repeat;
 	height: 82px;
@@ -91,6 +103,12 @@ input[type=button], input[type=submit]{
 	color: white;
 	text-decoration: none;
 	padding-right: 10px;
+}
+
+.main_content{
+	height: 100%;
+	vertical-align: top;
+	padding: 12px;
 }
 
 .main_language{

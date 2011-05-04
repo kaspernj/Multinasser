@@ -18,8 +18,12 @@ class Multinasser::Company < Knj::Datarow
 		raise "Invalid name given." if d.data[:name].to_s.strip.length <= 0
 	end
 	
+	def delete
+		_kas.trans_del(self)
+	end
+	
 	def html
-		return "<a href=\"/?show=company_edit&amp;company_id=#{id}\">#{name.html}</a>"
+		return "<a href=\"/?show=company_edit&amp;company_id=#{id}&amp;l=#{_session[:locale]}\">#{name.html}</a>"
 	end
 	
 	def name

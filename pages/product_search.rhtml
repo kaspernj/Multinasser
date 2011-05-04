@@ -1,0 +1,80 @@
+<%
+	print $site.header(_("Search for products"))
+%>
+
+<form method="get">
+<%
+	print Knj::Web.hiddens([
+		{:name => "show", :value => "product_search"},
+		{:name => "choice", :value => "dosearch"}
+	])
+%>
+
+<%=$site.boxt(_("Enter criteria"), "350px")%>
+	<table class="form">
+		<%
+			print Knj::Web.inputs([{
+				:title => _("Name"),
+				:name => :texname,
+				:value => _get["texname"]
+			}])
+		%>
+		<tr>
+			<td colspan="2" class="buttons">
+				<input type="button" value="<%=_("Add new")%>" onclick="location.href='/?show=product_edit';" />
+				<input type="submit" value="<%=_("Search")%>" />
+			</td>
+		</tr>
+	</table>
+<%=$site.boxb%>
+
+</form>
+
+<script type="text/javascript">
+	$("#texname").focus();
+</script>
+
+<%
+	if _get["choice"] == "dosearch"
+		args = {}
+		
+		prods = $ob.list(:Product, args)
+		
+		%>
+			<br />
+			
+			<%=$site.boxt(_("Results"), "500px")%>
+				<table class="list">
+					<thead>
+						<tr>
+							<th><%=_("Product")%></th>
+						</tr>
+					</thead>
+					<tbody>
+						<%
+							prods.each do |prod|
+								%>
+									<tr>
+										<td>
+											<%=prod.html%>
+										</td>
+									</tr>
+								<%
+							end
+							
+							if prods.empty?
+								%>
+									<tr>
+										<td colspan="1" class="error">
+											<%=_("No products were found.")%>
+										</td>
+									</tr>
+								<%
+							end
+						%>
+					</tbody>
+				</table>
+			<%=$site.boxb%>
+		<%
+	end
+%>

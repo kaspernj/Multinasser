@@ -1,0 +1,170 @@
+<%
+	if _get["choice"] == "dosave"
+		save_hash = {
+			
+		}
+	end
+	
+	if _get["product_id"]
+		product = $ob.get(:Product, _get["product_id"])
+		name = product.name
+		descr = product.descr
+		title = sprintf(_("Edit product: %s"), name.html)
+		
+		if _get["choice"] == "dosave"
+			product.update(save_hash)
+		end
+		
+		if _get["choice"] == "dodelete"
+			$ob.delete(product)
+			_kas.redirect("/?show=product_edit")
+		end
+		
+		if _get["choice"] == "doaddcompany"
+			company = $ob.get(:Company, _get["company_id"])
+			
+			begin
+				link = $ob.add(:Link, {
+					:object_from => product,
+					:object_to => company
+				})
+			rescue => e
+				_kas.alert(e.message)
+				_kas.back
+			end
+			
+			_kas.redirect("/?show=product_edit&product_id=#{product.id}")
+		end
+		
+		if _get["choice"] == "doremovecompany"
+			link = $ob.get_by(:Link, {
+				"object_from" => product,
+				"object_to_class" => :Company,
+				"id" => _get["link_id"]
+			})
+			if !link
+				_kas.alert(_("Such a company is not linked to this product."))
+				_kas.back
+			else
+				$ob.delete(link)
+				_kas.redirect("/?show=product_edit&product_id=#{product.id}")
+			end
+		end
+	else
+		title = _("Add new product")
+		
+		if _get["choice"] == "dosave"
+			product = $ob.add(:Product, save_hash)
+		end
+	end
+	
+	if _get["choice"] == "dosave"
+		_kas.trans_set(product, {
+			:name => _post["texname"],
+			:descr => _post["texdescr"]
+		})
+		_kas.redirect("/?show=product_edit&product_id=#{product.id}")
+	end
+	
+	print $site.header(title)
+%>
+
+<form method="post" action="/?show=product_edit&amp;choice=dosave<%if product; print "&amp;product_id=#{product.id}"; end%>">
+
+<%=$site.boxt(_("Enter details"), "600px")%>
+	<table class="form">
+		<%
+			print Knj::Web.inputs([{
+				:title => _("Name"),
+				:name => :texname,
+				:value => name,
+				:descr => _("The name of the product as it should appear on the website, in the mobile app. and other places")
+			},{
+				:title => _("Description"),
+				:name => :texdescr,
+				:value => descr,
+				:descr => _("The description of the product so a user can recognize it based on this description."),
+				:type => :fckeditor
+			}])
+		%>
+		<tr>
+			<td colspan="2" class="buttons">
+				<%if product%>
+					<input type="button" value="<%=_("Points")%>" onclick="location.href='/?show=points_view_for&amp;object_class=Product&amp;object_id=<%=product.id%>';" />
+					<input type="button" value="<%=_("Files")%>" onclick="location.href='/?show=file_view_for&amp;object_class=Product&amp;object_id=<%=product.id%>';" />
+					<input type="button" value="<%=_("Delete")%>" onclick="if (confirm('<%=_("Do you want to delete this product?")%>')){location.href='/?show=product_edit&amp;product_id=<%=product.id%>&amp;choice=dodelete';}" />
+				<%end%>
+				
+				<input type="submit" value="<%=_("Save")%>" />
+			</td>
+		</tr>
+	</table>
+<%=$site.boxb%>
+
+</form>
+
+<script type="text/javascript">
+	$("#texname").focus();
+</script>
+
+<%if product%>
+	<br />
+
+	<%=$site.boxt(_("Companies"), "500px")%>
+		<div style="padding-bottom: 15px;">
+			<input type="button" value="<%=_("Add new company")%>" onclick="modal({title: '<%=_("Add new company")%>', url: '/clean.rhtml?show=company_search&amp;product_id=<%=product.id%>&amp;choice=doajaxsearch&amp;choose_js_func=product_add_company'});" />
+		</div>
+		
+		<table class="list">
+			<thead>
+				<tr>
+					<th><%=_("Company")%></th>
+					<th><%=_("Added")%></th>
+					<th><%=_("Added by")%></th>
+					<th><%=_("Actions")%></th>
+				</tr>
+			</thead>
+			<tbody>
+				<%
+					companies = product.companies
+					
+					companies.each do |link|
+						%>
+							<tr>
+								<td>
+									<%=link.object_to.html%>
+								</td>
+								<td>
+									<%=Knj::Datet.in(link[:date_added]).out%>
+								</td>
+								<td>
+									<%=link.user_added.html%>
+								</td>
+								<td>
+									(<a href="javascript: if (confirm('<%=_("Do you want to remove this company?")%>')){location.href='/?show=product_edit&amp;product_id=<%=product.id%>&amp;link_id=<%=link.id%>&amp;choice=doremovecompany';}"><%=_("remove company")%></a>)
+								</td>
+							</tr>
+						<%
+					end
+					
+					if companies.empty?
+						%>
+							<tr>
+								<td colspan="4" class="error">
+									<%=_("No companies has been added to this product.")%>
+								</td>
+							</tr>
+						<%
+					end
+				%>
+			</tbody>
+		</table>
+	<%=$site.boxb%>
+	
+	<script type="text/javascript">
+		function product_add_company(company_id){
+			modal_close();
+			location.href = "/?show=product_edit&product_id=<%=product.id%>&choice=doaddcompany&company_id=" + company_id;
+		}
+	</script>
+<%end%>

@@ -18,8 +18,12 @@ class Multinasser::File < Knj::Datarow
 		obj = d.ob.get(d.data[:object_class], d.data[:object_id])
 	end
 	
+	def delete
+		_kas.trans_del(self)
+	end
+	
 	def html
-		return "<a href=\"/?show=file_edit&amp;file_id=#{id}\">#{self[:filename].html}</a> (<a href=\"/download.rhtml?object_class=File&amp;object_id=#{id}\">#{_("Download")}</a>)"
+		return "<a href=\"/?show=file_edit&amp;file_id=#{id}&amp;l=#{_session[:locale]}\">#{self[:filename].html}</a> (<a href=\"/download.rhtml?object_class=File&amp;object_id=#{id}\">#{_("Download")}</a>)"
 	end
 	
 	def object

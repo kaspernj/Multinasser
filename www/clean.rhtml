@@ -1,0 +1,15 @@
+<%
+	$site.request_init
+	
+	if _get["show"]
+		showpage = "../pages/#{_get["show"]}.rhtml"
+	else
+		showpage = "../pages/user_login.rhtml"
+	end
+	
+	if !File.exists?(showpage)
+		showpage = "../pages/error_notfound.rhtml"
+	end
+	
+	_kas.import(showpage)
+%>

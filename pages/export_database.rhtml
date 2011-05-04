@@ -1,0 +1,96 @@
+<%
+	$site.require_admin
+	
+	path_db2 = "/tmp/sqlite3.db"
+	
+	if _get["choice"] == "dodownloaddatabase"
+		Knj::Php.header("Content-Disposition: attachment; filename=\"multinasser_database.sqlite3\"");
+		print Knj::Php.file_get_contents(path_db2)
+		exit
+	end
+	
+	print $site.header(_("Export database"))
+	
+	if _get["choice"] == "dogeneratesqlite3"
+		_session_hash[:thread_edb] = Knj::Thread.new do
+			begin
+				cthread = Thread.current
+				
+				cthread[:status] = _("Cloning database connection.")
+				db = _db.clone_conn
+				
+				cthread[:status] = _("Creating SQLite3 database.")
+				File.unlink(path_db2) if File.exists?(path_db2)
+				
+				db2 = Knj::Db.new(
+					:type => "sqlite3",
+					:path => path_db2,
+					:index_append_table_name => true,
+					:return_keys => "symbols"
+				)
+				db.copy_to(db2)
+				
+				cthread[:status] = _("Done.")
+			rescue Exception => e
+				cthread[:status] = e.message
+			end
+		end
+		
+		_kas.redirect("/?show=export_database&l=#{_session[:locale]}")
+	end
+	
+	if _session_hash[:thread_edb]
+		%>
+			<%=$site.boxt(_("Status"), "350px")%>
+				<table class="form">
+					<%
+						print Knj::Web.inputs([{
+							:title => _("Status"),
+							:type => :info,
+							:value => _session_hash[:thread_edb][:status]
+						},{
+							:title => _("Running"),
+							:type => :info,
+							:value => Knj::Strings.yn_str(_session_hash[:thread_edb].alive?, _("Yes"), _("No"))
+						}])
+					%>
+				</table>
+			<%=$site.boxb%>
+			
+			<br />
+		<%
+	end
+	
+	if !_session_hash[:thread_edb] or !_session_hash[:thread_edb].alive?
+		%>
+			<%=$site.boxt(_("Actions"), "350px")%>
+				<input type="button" value="<%=_("Generate SQLite3 database")%>" onclick="location.href='/?show=export_database&amp;choice=dogeneratesqlite3&amp;l=<%=_session[:locale]%>';" />
+			<%=$site.boxb%>
+			
+			<br />
+		<%
+	end
+	
+	if File.exists?(path_db2)
+		%>
+			<%=$site.boxt(_("Generated database"), "350px")%>
+				<table class="form">
+					<%
+						print Knj::Web.inputs([{
+							:title => _("Date & time"),
+							:type => :info,
+							:value => Knj::Datet.in(File.new(path_db2).mtime).out
+						}])
+					%>
+					<tr>
+						<td colspan="2" class="buttons">
+							<input type="button" value="<%=_("Download")%>" onclick="location.href='/clean.rhtml?show=export_database&amp;choice=dodownloaddatabase';" />
+						</td>
+					</tr>
+				</table>
+			<%=$site.boxb%>
+			
+			<br />
+		<%
+	end
+%>
