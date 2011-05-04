@@ -4,7 +4,12 @@ class Multinasser::File < Knj::Datarow
 		
 		ret = list_helper(d)
 		d.args.each do |key, val|
-			raise sprintf(_("Invalid key: %s."), key)
+			case key
+				when "object_lookup"
+					sql += " AND object_class = '#{d.db.esc(val.table)}' AND object_id = '#{d.db.esc(val.id)}'"
+				else
+					raise sprintf(_("Invalid key: %s."), key)
+			end
 		end
 		
 		sql += ret[:sql_where]
