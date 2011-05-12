@@ -58,6 +58,16 @@ $tables = {
 				{"name" => "object_lookup", "columns" => ["object_class", "object_id"]}
 			]
 		},
+		"Option" => {
+			"columns" => [
+				{"name" => "id", "type" => "int", "autoincr" => true, "primarykey" => true},
+				{"name" => "title", "type" => "varchar"},
+				{"name" => "value", "type" => "text"}
+			],
+			"indexes" => [
+				{"name" => "title", "columns" => ["title"]}
+			]
+		},
 		"Page" => {
 			"columns" => [
 				{"name" => "id", "type" => "int", "autoincr" => true, "primarykey" => true},

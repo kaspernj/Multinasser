@@ -14,10 +14,6 @@ class Multinasser::Company < Knj::Datarow
 		return d.ob.list_bysql(:Company, sql)
 	end
 	
-	def self.add(d)
-		raise "Invalid name given." if d.data[:name].to_s.strip.length <= 0
-	end
-	
 	def delete
 		_kas.trans_del(self)
 	end
@@ -26,8 +22,10 @@ class Multinasser::Company < Knj::Datarow
 		return "<a href=\"/?show=company_edit&amp;company_id=#{id}&amp;l=#{_session[:locale]}\">#{name.html}</a>"
 	end
 	
-	def name
-		return _kas.trans(self, :name)
+	def name(args = {})
+		name_str = _kas.trans(self, :name)
+		name_str = "[#{_("no name")}]" if name_str.to_s.strip.length <= 0
+		return name_str
 	end
 	
 	def descr

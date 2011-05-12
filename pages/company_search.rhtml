@@ -57,6 +57,12 @@
 		
 		exit
 	end
+	
+	if _get["choose_js_func"]
+		js_func = _get["choose_js_func"]
+	else
+		js_func = "company_goto"
+	end
 %>
 
 <form method="get" onsubmit="return company_dosearch();">
@@ -75,6 +81,7 @@
 		%>
 		<tr>
 			<td colspan="2" class="buttons">
+				<input type="button" value="<%=_("Add new company")%>" onclick="location.href='/?show=company_edit';" />
 				<input type="submit" value="<%=_("Search")%>" />
 			</td>
 		</tr>
@@ -90,7 +97,7 @@
 	function company_dosearch(){
 		args = {"texname": $("#texname").val()}
 		
-		$.ajax({type: "POST", data: args, url: "/clean.rhtml?show=company_search&choice=dosearch&choose_js_func=<%=_get["choose_js_func"]%>", complete: function(data){
+		$.ajax({type: "POST", data: args, url: "/clean.rhtml?show=company_search&choice=dosearch&choose_js_func=<%=js_func%>", complete: function(data){
 			div_res = $("#divcompanyresults");
 			div_res.slideUp("fast", function(){
 				div_res.html(data.responseText);
@@ -99,6 +106,10 @@
 		}});
 		
 		return false;
+	}
+	
+	function company_goto(company_id){
+		location.href = "/?show=company_edit&company_id=" + company_id;
 	}
 </script>
 
