@@ -51,14 +51,14 @@
 				:title => _("Name"),
 				:name => :texname,
 				:value => company_name,
-				:descr => _("The name of the company as it should appear on the mediums.")
+				:descr => _("The name of the company as it should appear on the mediums.").force_encoding("ASCII-8BIT")
 			},{
 				:title => _("Description"),
 				:name => :texdescr,
 				:value => company_descr,
 				:type => :fckeditor,
 				:height => 500,
-				:descr => _("A description of the company as it should be shown on the mediums.")
+				:descr => _("A description of the company as it should be shown on the mediums.").force_encoding("ASCII-8BIT")
 			}])
 		%>
 		<tr>

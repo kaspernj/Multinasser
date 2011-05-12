@@ -66,7 +66,10 @@ $tables = {
 			],
 			"indexes" => [
 				{"name" => "title", "columns" => ["title"]}
-			]
+			],
+			"on_create_after" => proc{|data|
+				data["db"].insert("Option", {"title" => "locale", "value" => "da_DK"})
+			}
 		},
 		"Page" => {
 			"columns" => [
