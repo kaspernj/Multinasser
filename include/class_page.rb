@@ -59,6 +59,15 @@ class Multinasser::Page < Knj::Datarow
 		return _kas.trans(self, :content)
 	end
 	
+	def content_rhodes
+		cont_str = self.content
+		cont_str.scan(/(<a\s+href=\"(.+?)\")/) do |match|
+			cont_str = cont_str.gsub(match[0], "<a href=\"javascript: page_show_open_link('#{match[1]}');\"")
+		end
+		
+		return cont_str
+	end
+	
 	def html
 		return "<a href=\"/?show=page_edit&amp;page_id=#{id}\">#{self.name.html}</a>"
 	end

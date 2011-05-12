@@ -1,0 +1,469 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Multinasser\n"
+"POT-Creation-Date: 2011-05-12 11:23+0100\n"
+"PO-Revision-Date: 2011-05-12 11:51+0100\n"
+"Last-Translator: Christina\n"
+"Language-Team: Christina Stöckel <christina_stoeckel@googlemail.com>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
+"X-Poedit-Basepath: ../../../\n"
+"X-Poedit-Language: German\n"
+"X-Poedit-Country: GERMANY\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-SearchPath-0: ./pages\n"
+"X-Poedit-SearchPath-1: ./include\n"
+"X-Poedit-SearchPath-2: ./www\n"
+
+#: include/class_user.rb:7
+#: include/class_link.rb:13
+#: include/class_product.rb:7
+#: include/class_page.rb:27
+#: include/class_points.rb:12
+#: include/class_file.rb:11
+#: include/class_log_link.rb:7
+msgid "Invalid key: %s."
+msgstr "Ungültiger key: %s."
+
+#: include/class_link.rb:51
+msgid "Such a link already exists."
+msgstr "Dieser Link existiert bereits."
+
+#: include/class_page.rb:46
+msgid "A page with that ID string already exists."
+msgstr "Es existiert schon eine Seite mit diesem ID string. "
+
+#: include/class_company.rb:7
+#: include/class_log.rb:7
+msgid "Invalid key: %s"
+msgstr "Ungültiger key: %s"
+
+#: pages/user_login.rhtml:2
+#: pages/user_login.rhtml:48
+msgid "Log in"
+msgstr "Einloggen"
+
+#: pages/user_login.rhtml:11
+msgid "Could not find a user with such a username and/or password."
+msgstr "Es wurde kein Benutzer mit dem Benutzernamen und/oder Passwort gefunden."
+
+#: pages/user_login.rhtml:26
+msgid "You are logged in as %s."
+msgstr "Sie sind eingeloggt als %s."
+
+#: pages/user_login.rhtml:32
+#: pages/points_edit.rhtml:54
+#: pages/company_edit.rhtml:47
+#: pages/product_edit.rhtml:74
+msgid "Enter details"
+msgstr "Details eingeben"
+
+#: pages/user_login.rhtml:36
+msgid "Username"
+msgstr "Benutzername"
+
+#: pages/user_login.rhtml:38
+msgid "The username you want to log in with."
+msgstr "Der Benutzername mit dem Sie einloggen wollen."
+
+#: pages/user_login.rhtml:40
+msgid "Password"
+msgstr "Passwort"
+
+#: pages/user_login.rhtml:43
+msgid "The password assigned to that username."
+msgstr "Das Passwort, dass zu dem Benutzernamen gehört."
+
+#: pages/error_notfound.rhtml:1
+msgid "Error"
+msgstr "Error"
+
+#: pages/error_notfound.rhtml:3
+msgid "The object you are looking for were not found."
+msgstr "Das Objekt nach dem Sie suchen wurde nicht gefunden."
+
+#: pages/points_edit.rhtml:17
+msgid "Edit points: %s"
+msgstr "Punkte eingeben: %s"
+
+#: pages/points_edit.rhtml:30
+msgid "Add new points"
+msgstr "Neue Punkte hinzufügen"
+
+#: pages/points_edit.rhtml:58
+#: pages/company_edit.rhtml:68
+#: pages/product_edit.rhtml:93
+msgid "Points"
+msgstr "Punkte"
+
+#: pages/points_edit.rhtml:63
+msgid "Title"
+msgstr "Titel"
+
+#: pages/points_edit.rhtml:67
+msgid "Object"
+msgstr "Objekt"
+
+#: pages/points_edit.rhtml:71
+#: pages/company_edit.rhtml:56
+#: pages/product_edit.rhtml:83
+msgid "Description"
+msgstr "Beschreibung"
+
+#: pages/points_edit.rhtml:80
+#: pages/company_edit.rhtml:69
+#: pages/product_edit.rhtml:95
+msgid "Delete"
+msgstr "Löschen"
+
+#: pages/points_edit.rhtml:80
+msgid "Do you want to delete these points?"
+msgstr "Wollen Sie diese Punkte löschen?"
+
+#: pages/points_edit.rhtml:82
+#: pages/company_edit.rhtml:72
+#: pages/product_edit.rhtml:98
+msgid "Save"
+msgstr "Speichern"
+
+#: pages/company_edit.rhtml:14
+msgid "Edit company: %s"
+msgstr "Unternehmen bearbeiten: %s"
+
+#: pages/company_edit.rhtml:25
+#: pages/company_search.rhtml:84
+#: pages/product_edit.rhtml:115
+msgid "Add new company"
+msgstr "Neues Unternehmen hinzufügen"
+
+#: pages/company_edit.rhtml:38
+msgid "Company has been updated."
+msgstr "Das Unternehmen wurde aktualisiert."
+
+#: pages/company_edit.rhtml:51
+#: pages/company_search.rhtml:76
+#: pages/product_edit.rhtml:78
+msgid "Name"
+msgstr "Name"
+
+#: pages/company_edit.rhtml:54
+msgid "The name of the company as it should appear on the mediums."
+msgstr "Der Name des Unternehmens, wie er in dem Medium erscheinen sollte."
+
+#: pages/company_edit.rhtml:61
+msgid "A description of the company as it should be shown on the mediums."
+msgstr "Eine Beschreibung des Unternehmens, wie sie in dem Medium erscheinen sollte."
+
+#: pages/company_edit.rhtml:67
+#: pages/product_edit.rhtml:94
+msgid "Files"
+msgstr "Dateien"
+
+#: pages/company_edit.rhtml:69
+msgid "Do you want to delete this company?"
+msgstr "Wollen Sie dieses Unternehmen löschen?"
+
+#: pages/company_search.rhtml:5
+msgid "Search for companies"
+msgstr "Nach Unternehmen suchen"
+
+#: pages/company_search.rhtml:20
+msgid "Results"
+msgstr "Ergebnisse"
+
+#: pages/company_search.rhtml:24
+#: pages/product_edit.rhtml:121
+msgid "Company"
+msgstr "Unternehmen"
+
+#: pages/company_search.rhtml:47
+msgid "No companies were found."
+msgstr "Es wurde kein Unternehmen gefunden."
+
+#: pages/company_search.rhtml:72
+msgid "Enter criteria"
+msgstr "Kriterien eingeben"
+
+#: pages/company_search.rhtml:79
+msgid "A part of the companys name you are searching for."
+msgstr "Teile des Namens für das Unternehmen nach dem Sie suchen."
+
+#: pages/company_search.rhtml:85
+msgid "Search"
+msgstr "Suchen"
+
+#: pages/product_edit.rhtml:12
+msgid "Edit product: %s"
+msgstr "Produkt bearbeiten: %s"
+
+#: pages/product_edit.rhtml:46
+msgid "Such a company is not linked to this product."
+msgstr "So ein Unternehmen ist nicht zu dem Produkt verlinkt."
+
+#: pages/product_edit.rhtml:54
+msgid "Add new product"
+msgstr "Neues Produkt hinzufügen"
+
+#: pages/product_edit.rhtml:81
+msgid "The name of the product as it should appear on the website, in the mobile app. and other places"
+msgstr "Der Name des Produktes, wie es auf der Internetseite, in dem App etc. erscheinen soll."
+
+#: pages/product_edit.rhtml:86
+msgid "The description of the product so a user can recognize it based on this description."
+msgstr "Eine Beschreibung des Produktes, so dass ein Benutzer es erkennen kann."
+
+#: pages/product_edit.rhtml:95
+msgid "Do you want to delete this product?"
+msgstr "Wollen Sie dieses Produkt löschen?"
+
+#: pages/product_edit.rhtml:113
+msgid "Companies"
+msgstr "Unternehmen"
+
+#: pages/product_edit.rhtml:122
+msgid "Added"
+msgstr "Hinzugefügt"
+
+#: pages/product_edit.rhtml:123
+msgid "Added by"
+msgstr "Hinzugefügt von"
+
+#: pages/product_edit.rhtml:124
+msgid "Actions"
+msgstr "Aktionen"
+
+#: pages/product_edit.rhtml:144
+msgid "Do you want to remove this company?"
+msgstr "Wollen Sie dieses Unternehmen löschen?"
+
+#: pages/product_edit.rhtml:144
+msgid "remove company"
+msgstr "Unternehmen entfernen"
+
+#: pages/product_edit.rhtml:154
+msgid "No companies has been added to this product."
+msgstr "Es wurde kein Unternehmen zu diesem Produkt hinzugefügt."
+
+#: pages/file_view_for.rhtml:5
+msgid "Files for %s"
+msgstr "Dateien für %s"
+
+#: pages/file_view_for.rhtml:11
+msgid "List of files"
+msgstr "Liste der Dateien"
+
+#: pages/file_view_for.rhtml:13
+#: pages/points_view_for.rhtml:12
+msgid "Add"
+msgstr "Hinzufügen"
+
+#: pages/file_view_for.rhtml:19
+#: pages/file_edit.rhtml:54
+msgid "File"
+msgstr "Datei"
+
+#: pages/file_view_for.rhtml:36
+msgid "No files were found."
+msgstr "Es wurden keine Dateien gefunden."
+
+#: pages/file_edit.rhtml:11
+msgid "Edit file: %s"
+msgstr "Datei bearbeiten: %s"
+
+#: pages/file_edit.rhtml:20
+msgid "Add new file"
+msgstr "Neue Datei hinzufügen"
+
+#: pages/file_edit.rhtml:56
+msgid "You can choose the file this object should represent here and then uploading it by pressing 'Save'."
+msgstr "Sie können die Datei, die das Objekt repräsentieren soll, hier wählen und dann hochladen indem sie 'Speichern' klicken."
+
+#: pages/file_edit.rhtml:61
+msgid "Attached to"
+msgstr "Angehangen zu"
+
+#: pages/file_edit.rhtml:64
+msgid "The object that this files is attached to and what it will be shown for."
+msgstr "Das Objekt zu dem die Datei angehangen ist und für was es gezeigt wird."
+
+#: pages/file_edit.rhtml:70
+msgid "File object"
+msgstr "Datei Objekt"
+
+#: pages/file_edit.rhtml:73
+msgid "A link representing this object where you can download the file and go to edit-mode."
+msgstr "Ein Link, der das Objekt repräsentiert wo Sie die Datei herunterladen können und zum Bearbeitungs-Mode gelangen."
+
+#: pages/file_edit.rhtml:83
+msgid "This description should describe what this files is and what it contains."
+msgstr "Die Beschreibung sollte erklären was diese Datei ist und was sie beinhaltet."
+
+#: pages/file_edit.rhtml:89
+msgid "Do you want to delete this file?"
+msgstr "Wollen Sie diese Datei löschen?"
+
+#: pages/product_search.rhtml:2
+msgid "Search for products"
+msgstr "Nach Produkten suchen"
+
+#: pages/product_search.rhtml:24
+#: pages/page_search.rhtml:25
+msgid "Add new"
+msgstr "Neu hinzufügen"
+
+#: pages/product_search.rhtml:50
+msgid "Product"
+msgstr "Produkt"
+
+#: pages/product_search.rhtml:69
+msgid "No products were found."
+msgstr "Es wurden keine Produkte gefunden."
+
+#: pages/points_view_for.rhtml:7
+msgid "View points for: %s"
+msgstr "Punkte sehen für: %s"
+
+#: pages/points_view_for.rhtml:10
+msgid "List of points"
+msgstr "Liste über Pubkte"
+
+#: pages/points_view_for.rhtml:20
+msgid "Author"
+msgstr "Autor"
+
+#: pages/points_view_for.rhtml:45
+msgid "No points were found for this object."
+msgstr "Es wurden keine Punkte für dieses Objekt gefunden."
+
+#: pages/user_view.rhtml:4
+msgid "View user: %s"
+msgstr "Benutzer sehen: %s"
+
+#: pages/user_view.rhtml:7
+msgid "There is no content on this page yet."
+msgstr "Auf dieser Seite gibt es noch keinen Inhalt."
+
+#: pages/export_database.rhtml:12
+msgid "Export database"
+msgstr "Datenbank exportieren"
+
+#: pages/export_database.rhtml:21
+msgid "Cloning database connection."
+msgstr "Datenbank Verbindung klonen."
+
+#: pages/export_database.rhtml:24
+msgid "Creating SQLite3 database."
+msgstr "SQLite3 Datenbank erstellen."
+
+#: pages/export_database.rhtml:52
+msgid "Done."
+msgstr "Fertig."
+
+#: pages/export_database.rhtml:66
+#: pages/export_database.rhtml:70
+msgid "Status"
+msgstr "Status"
+
+#: pages/export_database.rhtml:74
+msgid "Running"
+msgstr "in Arbeit"
+
+#: pages/export_database.rhtml:76
+msgid "Yes"
+msgstr "Ja"
+
+#: pages/export_database.rhtml:76
+msgid "No"
+msgstr "Nein"
+
+#: pages/export_database.rhtml:89
+msgid "Generate SQLite3 database"
+msgstr "SQLite3 Datenbank generieren"
+
+#: pages/export_database.rhtml:98
+msgid "Generated database"
+msgstr "Generierte Datenbank"
+
+#: pages/export_database.rhtml:102
+msgid "Date & time"
+msgstr "Datum & Zeit"
+
+#: pages/export_database.rhtml:109
+msgid "Download"
+msgstr "Download"
+
+#: pages/page_search.rhtml:2
+msgid "Search for pages"
+msgstr "Nach Seiten suchen"
+
+#: pages/page_search.rhtml:20
+msgid "The name of the page you are searching for."
+msgstr "Der Name der Seite nach der Sie suchen."
+
+#: pages/page_search.rhtml:55
+msgid "Page"
+msgstr "Seite"
+
+#: pages/page_search.rhtml:74
+msgid "No pages were found."
+msgstr "Es wurden keine Seiten gefunden."
+
+#: pages/page_edit.rhtml:12
+msgid "Edit page: %s"
+msgstr "Seite bearbeiten: %s"
+
+#: pages/page_edit.rhtml:23
+msgid "Add new page"
+msgstr "Neue Seite hinzufügen"
+
+#: pages/page_edit.rhtml:50
+msgid "The name of the page as it should appear on the website and in the mobile application."
+msgstr "Der Name der Seite wie er auf der Internetseite und in dem App erscheinen soll. "
+
+#: pages/page_edit.rhtml:52
+msgid "ID string"
+msgstr "ID String"
+
+#: pages/page_edit.rhtml:55
+msgid "This text is used to look this page up in the system."
+msgstr "Dieser Text wird genutzt um die Seite im System zu suchen."
+
+#: pages/page_edit.rhtml:57
+msgid "Content"
+msgstr "Inhalt"
+
+#: pages/page_edit.rhtml:60
+msgid "The content as it should appear on the website and on the mobile application."
+msgstr "Der Inhalt wie er auf der Internetseite und im dem App erscheinen soll."
+
+#: pages/page_edit.rhtml:67
+msgid "Do you want to delete this page?"
+msgstr "Wollen Sie diese Seite löschen?"
+
+#: www/index.rhtml:36
+msgid "Close"
+msgstr "Schließen"
+
+#: www/index.rhtml:57
+msgid "Pages"
+msgstr "Seiten"
+
+#: www/index.rhtml:58
+msgid "Products"
+msgstr "Produkte"
+
+#: www/index.rhtml:59
+msgid "Export DB"
+msgstr "DB exportieren"
+
+#: www/index.rhtml:60
+msgid "Log out"
+msgstr "Ausloggen"
+
+#: www/index.rhtml:84
+msgid "Made by %s"
+msgstr "Made by %s"
+
