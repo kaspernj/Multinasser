@@ -23,7 +23,9 @@ class Multinasser::Product < Knj::Datarow
 	end
 	
 	def name
-		return _kas.trans(self, :name)
+		name_str = _kas.trans(self, :name)
+		name_str = "[#{_("no name")}]" if name_str.to_s.strip.length <= 0
+		return name_str
 	end
 	
 	def descr
