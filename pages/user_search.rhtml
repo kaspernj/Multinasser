@@ -1,0 +1,85 @@
+<%
+	print $site.header(_("Search for users"))
+%>
+
+<form method="get">
+<input type="hidden" name="show" value="user_search" />
+<input type="hidden" name="choice" value="dosearch" />
+
+<%=$site.boxt(_("Enter criteria"), "350px")%>
+	<table class="form">
+		<%
+			print Knj::Web.inputs([{
+				:title => _("Username"),
+				:name => :texusername,
+				:value => _get["texusername"],
+				:descr => _("A part of the username of the user you are looking for.")
+			}])
+		%>
+		<tr>
+			<td colspan="2" class="buttons">
+				<input type="submit" value="<%=_("Search")%>" />
+			</td>
+		</tr>
+	</table>
+<%=$site.boxb%>
+
+<input type="hidden" name="l" value="<%=_session[:locale]%>" />
+</form>
+
+<script type="text/javascript">
+	$("#texusername").focus();
+</script>
+
+<%
+	if _get["choice"] == "dosearch"
+		args = {}
+		
+		if _get["texusername"].to_s.length > 0
+			args["username_search"] = _get["texusername"]
+		end
+		
+		users = $ob.list(:User, args)
+		
+		%>
+			<br />
+			
+			<%=$site.boxt(_("Results"), "500px")%>
+				<table class="list">
+					<thead>
+						<tr>
+							<th><%=_("User")%></th>
+							<th><%=_("Actions")%></th>
+						</tr>
+					</thead>
+					<tbody>
+						<%
+							users.each do |user|
+								%>
+									<tr>
+										<td>
+											<%=user.html%>
+										</td>
+										<td>
+											(<a href="/?show=user_edit&amp;user_id=<%=user.id%>&amp;l=<%=_session[:locale]%>"><%=_("edit")%></a>)
+										</td>
+									</tr>
+								<%
+							end
+							
+							if users.empty?
+								%>
+									<tr>
+										<td colspan="1" class="error">
+											<%=_("No users were found.")%>
+										</td>
+									</tr>
+								<%
+							end
+						%>
+					</tbody>
+				</table>
+			<%=$site.boxb%>
+		<%
+	end
+%>

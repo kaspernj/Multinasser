@@ -1,0 +1,78 @@
+<%
+	if _get["choice"] == "dosave"
+		save_hash = {
+			"username" => _post["texusername"]
+		}
+		
+		if _post["texpasswd_md5"].to_s.length > 0
+			save_hash["password"] = _post["texpasswd_md5"]
+		end
+	end
+	
+	if _get["user_id"]
+		user = $ob.get(:User, _get["user_id"])
+		title = sprintf(_("Edit user: %s"), user.name.html)
+		
+		if _get["choice"] == "dosave"
+			user.update(save_hash)
+			_kas.redirect("/?show=user_edit&user_id=#{user.id}")
+		end
+		
+		if _get["choice"] == "dodelete"
+			$ob.delete(user)
+			_kas.redirect("/?show=user_edit")
+		end
+	else
+		title = _("Add new user")
+		
+		if _get["choice"] == "dosave"
+			user = $ob.add(:User, save_hash)
+			_kas.redirect("/?show=user_edit&user_id=#{user.id}")
+		end
+	end
+	
+	print $site.header(title)
+%>
+
+<form autocomplete="off" onsubmit="return user_edit_on_submit();" method="post" action="/?show=user_edit&amp;choice=dosave<%if user; print "&amp;user_id=#{user.id}"; end%>">
+<input type="hidden" name="texpasswd_md5" value="" />
+
+<%=$site.boxt(_("Enter details"), "350px")%>
+	<table class="form">
+		<%
+			print Knj::Web.inputs([{
+				:title => _("Username"),
+				:name => :texusername,
+				:value => [user, :username],
+				:descr => _("The username the user will have to user to log in.")
+			},{
+				:title => _("Password"),
+				:name => :texpasswd,
+				:value => "",
+				:type => :password,
+				:descr => _("The password the user will have to user to log in.")
+			}])
+		%>
+		<tr>
+			<td colspan="2" class="buttons">
+				<%if user%>
+					<input type="button" value="<%=_("Delete")%>" onclick="if (confirm('<%=_("Do you want to delete this user?")%>')){location.href='/?show=user_edit&amp;user_id=<%=user.id%>&amp;choice=dodelete';}" />
+				<%end%>
+				<input type="submit" value="<%=_("Save")%>" />
+			</td>
+		</tr>
+	</table>
+<%=$site.boxb%>
+
+</form>
+
+<script type="text/javascript">
+	function user_edit_on_submit(){
+		passwd = $("#texpasswd").val();
+		
+		if (passwd.length > 0){
+			$("input[name=texpasswd_md5]").val($.md5(passwd));
+			$("#texpasswd").val("");
+		}
+	}
+</script>
