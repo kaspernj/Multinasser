@@ -1,4 +1,6 @@
 <%
+	$site.require_admin
+	
 	if _get["choice"] == "dosave"
 		save_hash = {
 			"username" => _post["texusername"]

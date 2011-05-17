@@ -21,7 +21,7 @@
 				<table class="list">
 					<thead>
 						<tr>
-							<th><%=_("Company")%></th>
+							<th colspan="2"><%=_("Company")%></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -29,6 +29,11 @@
 							companies.each do |company|
 								%>
 									<tr>
+										<td style="width: 25px;">
+											<%if company.logo_has?%>
+												<img src="<%=company.logo_url("&smartsize=25&edgesize=22&edgeborder=5f5f5f&equaldim=true")%>" alt="<%=company.name.html%>" />
+											<%end%>
+										</td>
 										<td>
 											<%if _get["choose_js_func"]%>
 												<a href="javascript: <%=_get["choose_js_func"]%>(<%=company.id%>);"><%=company.name.html%></a>

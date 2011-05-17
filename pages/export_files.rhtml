@@ -1,0 +1,70 @@
+<%
+	$site.require_admin
+	
+	package_path = "/tmp/multinasserne_files.zip"
+	
+	if _get["choice"] == "dodownloadpackage"
+		if !File.exists?(package_path)
+			_kas.alert(_("The package-file does not exist."))
+			_kas.back
+		end
+		
+		Knj::Php.header("Content-Disposition: attachment; filename=\"multinasser_files.zip\"");
+		print File.read(package_path)
+		exit
+	end
+	
+	if _get["choice"] == "dogenerate"
+		Knj::Thread.new do
+			File.delete(package_path) if File.exists?(package_path)
+			t = File.open(package_path, "w")
+			Zip::ZipOutputStream.open(t.path) do |zos|
+				company_logos_path = "#{$multinasserne_config[:path]}/files/company_logos"
+				Dir.new(company_logos_path).each do |file|
+					filepath = "files/company_logos/#{file}"
+					filepath_full = "#{$multinasserne_config[:path]}/files/company_logos/#{file}"
+					next if file == "." or file == ".." or File.file?(file) or !file.match(/\.png$/)
+					
+					zos.put_next_entry(filepath)
+					zos.print IO.read(filepath_full)
+					print "File: #{file}\n"
+				end
+			end
+			
+			t.close
+		end
+		
+		_kas.redirect("/?show=export_files")
+	end
+	
+	print $site.header(_("Export files"))
+%>
+
+<%=$site.boxt(_("Actions"), "350px")%>
+	<input type="button" value="<%=_("Generate")%>" onclick="location.href='/?show=export_files&amp;choice=dogenerate';" />
+<%=$site.boxb%>
+
+<%
+	if File.exists?(package_path)
+		%>
+			<br />
+			
+			<%=$site.boxt(_("Current generated file"), "350px")%>
+				<table class="form">
+					<%
+						print Knj::Web.inputs([{
+							:title => _("Generated date & time"),
+							:type => :info,
+							:value => Knj::Datet.in(File.mtime(package_path)).out
+						}])
+					%>
+					<tr>
+						<td colspan="2" class="buttons">
+							<input type="button" value="<%=_("Download")%>" onclick="location.href='/clean.rhtml?show=export_files&amp;choice=dodownloadpackage';" />
+						</td>
+					</tr>
+				</table>
+			<%=$site.boxb%>
+		<%
+	end
+%>

@@ -21,6 +21,11 @@
 			$ob.delete(company)
 			_kas.redirect("/?show=company_edit")
 		end
+		
+		if _get["choice"] == "dodeletelogo"
+			company.logo_delete
+			_kas.redirect("/?show=company_edit&company_id=#{company.id}")
+		end
 	else
 		title = _("Add new company")
 		
@@ -36,13 +41,25 @@
 			:descr => _post["texdescr"]
 		})
 		$site.log(_("Company has been updated."), company)
+		
+		if _post["filelogo"].to_s.length > 0
+			begin
+				tmp_path = "/tmp/company_logo_upload_#{Time.new.to_f}"
+				File.delete(tmp_path) if File.exists?(tmp_path)
+				Knj::Php.file_put_contents(tmp_path, _post["filelogo"].to_s)
+				company.logo_file = tmp_path
+			ensure
+				File.delete(tmp_path) if File.exists?(tmp_path)
+			end
+		end
+		
 		_kas.redirect("/?show=company_edit&company_id=#{company.id}")
 	end
 	
 	print $site.header(title)
 %>
 
-<form method="post" action="/?show=company_edit&amp;choice=dosave<%if company; print "&amp;company_id=#{company.id}"; end%>">
+<form enctype="multipart/form-data" method="post" action="/?show=company_edit&amp;choice=dosave<%if company; print "&amp;company_id=#{company.id}"; end%>">
 
 <%=$site.boxt(_("Enter details"), "800px")%>
 	<table class="form">
@@ -52,6 +69,14 @@
 				:name => :texname,
 				:value => company_name,
 				:descr => _("The name of the company as it should appear on the mediums.").force_encoding("ASCII-8BIT")
+			},{
+				:title => _("Logo"),
+				:name => :filelogo,
+				:type => :imageupload,
+				:path => "#{$multinasserne_config[:path]}/files/company_logos/%value%.png",
+				:dellink => "/?show=company_edit&company_id=%value%&choice=dodeletelogo",
+				:value => [company, :id],
+				:descr => _("The companys logo. This will be shown in front of the companys name in the mobile app.")
 			},{
 				:title => _("Description"),
 				:name => :texdescr,
